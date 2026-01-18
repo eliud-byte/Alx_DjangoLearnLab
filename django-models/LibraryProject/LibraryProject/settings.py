@@ -118,6 +118,8 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+LOGIN_URL = 'login'
+
 # Redirect to the book list after successful login
 LOGIN_REDIRECT_url = 'list_books'
 
