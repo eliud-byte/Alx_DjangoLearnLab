@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bookshelf',
     'relationship_app',
+    'csp',
 ]
 
 MIDDLEWARE = [
@@ -167,10 +168,18 @@ if not DEBUG:
     # Prevents your site from being embedded in iframes (Clickjacking protection)
     X_FRAME_OPTIONS = 'DENY'
 
+    # Tell Django to trust the 'X-Forwarded-Proto' header coming
+    # from proxy (Nginx/Heroku/etc.)
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
 # ALLOWED_HOSTS must be defined when DEBUG IS False
 ALLOWED_HOSTS = ['yourdomain.com', 'localhost', '127.0.0.1']
 
 # csp Configuration
-CSP_DEFAULT_SRC = ("'self'",)
-CSP_STYLE_SRC = ("'self'", "https://fonts.googleapis.com")
-CSP_SCRIPT_SRC = ("'self'",)
+CONTENT_SECURITY_POLICY = {
+    'DIRECTIVES': {
+        'default-src': ("'self'",),
+        'script-src': ("'self'",),
+        'style-src': ("'self'", 'https://fonts.googleapis.com'),
+    }
+}

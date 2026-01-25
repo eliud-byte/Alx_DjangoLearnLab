@@ -31,13 +31,13 @@ def register(request):
 
 # Helper functions for role checking
 def is_admin(user):
-    return user.is_authenticated and user.userprofile.role == 'Admin'
+    return user.is_authenticated and hasattr(user, 'relationship_profile') and user.relationship_profile.role == 'Admin'
 
 def is_librarian(user):
-    return user.is_authenticated and user.userprofile.role == 'Librarian'
+    return user.is_authenticated and hasattr(user, 'relationship_profile') and user.relationship_profile.role == 'Librarian'
 
 def is_member(user):
-    return user.is_authenticated and user.userprofile.role == 'Member'
+    return user.is_authenticated and hasattr(user, 'relationship_profile') and user.relationship_profile.role == 'Member'
 
 # Admin View
 @user_passes_test(is_admin)
