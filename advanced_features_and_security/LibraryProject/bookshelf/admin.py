@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Book
+from .models import Book, UserProfile
 
 class BookAdmin(admin.ModelAdmin):
     # Display these fields in the admin list view
@@ -13,3 +13,13 @@ class BookAdmin(admin.ModelAdmin):
 
 # Register the model with the custom admin class
 admin.site.register(Book, BookAdmin)
+
+@admin.register(UserProfile)
+class UserProfileAdmin(admin.ModelAdmin):
+    list_display = ('user', 'location')
+
+    # Optional: Prevent admins from changing the 'user' field of an existing profile
+    def get_readonly_fields(self, request, obj=None):
+        if obj: # editing an existing object
+            return ('user',)
+        return ()

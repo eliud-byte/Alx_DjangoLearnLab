@@ -77,7 +77,7 @@ class CustomUserManager(UserManager):
         user.save(using=self._db)
         return user 
     
-    def create_superuser(self, username, email=None, password=None, **extra_fields):
+    def create_superuser(self, username, email, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
 
@@ -91,6 +91,7 @@ class CustomUserManager(UserManager):
 class CustomUser(AbstractUser):
     """
     Custom user model extending AbstractUser with additional fields.
+    Includes date_of_birth and profile_photo.
     """
     date_of_birth = models.DateField(null=True, blank=True)
     profile_photo = models.ImageField(upload_to='profile_photos/', null=True, blank=True)
