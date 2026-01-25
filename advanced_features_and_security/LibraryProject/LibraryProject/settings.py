@@ -135,6 +135,29 @@ AUTH_USER_MODEL = 'bookshelf.CustomUser'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# Step 1: Production Security
+DEBUG = False  # NEVER leave True in production
+
+# ALLOWED_HOSTS must be defined when DEBUG is False
+ALLOWED_HOSTS = ['yourdomain.com', 'localhost', '127.0.0.1']
+
+# Browser Security Headers
+SECURE_BROWSER_XSS_FILTER = True  # Enables browser's XSS filtering
+X_FRAME_OPTIONS = 'DENY'           # Prevents site from being framed (Clickjacking)
+SECURE_CONTENT_TYPE_NOSNIFF = True # Prevents browser from guessing content types
+
+# SSL/HTTPS Security (Enable when using HTTPS)
+CSRF_COOKIE_SECURE = True     # Ensures CSRF cookie is only sent over HTTPS
+SESSION_COOKIE_SECURE = True  # Ensures Session cookie is only sent over HTTPS
+
+# HSTS (HTTP Strict Transport Security)
+SECURE_HSTS_SECONDS = 31536000 # 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+# Redirect HTTP to HTTPS
+SECURE_SSL_REDIRECT = True
+
 # SECURITY CONFIGURATION
 # ---------------------------------------------------------
 
