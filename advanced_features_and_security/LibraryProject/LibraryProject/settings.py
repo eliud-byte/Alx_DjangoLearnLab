@@ -146,7 +146,7 @@ X_FRAME_OPTIONS= 'DENY'    # Prevents site from being framed (Clickjacking)
 SECURE_CONTENT_TYPE_NOSNIFF = True # Prevents browser from guessing contenttypes
 
 # SSL/HTTPS Security (Enable when using HTTPS)
-CSRF_COOKIES_SECURE = True  # Ensure CSRF cookie is only sent over HTTPS
+CSRF_COOKIE_SECURE = True  # Ensure CSRF cookie is only sent over HTTPS
 SESSION_COOKIE_SECURE = True # Ensure Session cookie is only sent over HTTPS
 
 # HSTS (HTTP Strict Transport Security)
