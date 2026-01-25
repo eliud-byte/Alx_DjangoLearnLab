@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-from django.contrib.auth.models import AbstractUser, UserManager
+from django.contrib.auth.models import AbstractUser, BaseUserManager
 
 # Create your models here.
 
@@ -13,7 +13,7 @@ class Book(models.Model):
         return f"{self.title} by {self.author}"
 
 # Custom User Manager
-class CustomUserManager(UserManager):
+class CustomUserManager(BaseUserManager):
     """
     Custom user manager to handle creation of users and superusers.
     """
@@ -45,8 +45,6 @@ class CustomUser(AbstractUser):
     """
     date_of_birth = models.DateField(null=True, blank=True)
     profile_photo = models.ImageField(upload_to='profile_photos/', null=True, blank=True)
-
-    objects = CustomUserManager()
 
     def __str__(self):
         return self.username    
