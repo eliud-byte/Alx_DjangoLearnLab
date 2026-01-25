@@ -123,7 +123,7 @@ STATIC_URL = 'static/'
 LOGIN_URL = 'login'
 
 # Redirect to the book list after successful login
-LOGIN_REDIRECT_url = 'list_books'
+LOGIN_REDIRECT_URL = 'list_books'
 
 # Redirect to the login page after logout
 LOGOUT_REDIRECT_URL = 'login'
@@ -134,30 +134,43 @@ AUTH_USER_MODEL = 'bookshelf.CustomUser'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# Production Security
-DEBUG = False # NEVER leave True in production
+# SECURITY CONFIGURATION
+# ---------------------------------------------------------
+
+# Only apply these settings in production to avoid breaking local development
+if not DEBUG:
+    # Step 1: Enforce HTTPS
+    
+    # Redirects all non-HTTPS requests to HTTPS (http:// -> https://)
+    SECURE_SSL_REDIRECT = True 
+
+    # HTTP Strict Transport Security (HSTS)
+    # Tells the browser to ONLY connect via HTTPS for the next year (31536000 seconds)
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True # Apply to subdomains (e.g., blog.yoursite.com)
+    SECURE_HSTS_PRELOAD = True  # Allow submission to the browser preload list
+
+    # Step 2: Enforce Secure Cookies
+    
+    # Ensures cookies are only sent over HTTPS connections
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True 
+
+    # Step 3: Implement Secure Headers
+
+    # Prevents the browser from guessing content types (MIME sniffing)
+    SECURE_CONTENT_TYPE_NOSENIFF = True
+
+    # Enables the browser's built-in XSS protection
+    SECURE_BROWSER_XSS_FILTER = True
+
+    # Prevents your site from being embedded in iframes (Clickjacking protection)
+    X_FRAME_OPTIONS = 'DENY'
 
 # ALLOWED_HOSTS must be defined when DEBUG IS False
-ALLOWED_HOSTS = ['yourdomain.com' 'localhost', '127.0.0.1']
-
-# Browser Security Headers
-SECURE_BROWSER_XSS_FILTER = True # Enables browser's XSS filtering
-X_FRAME_OPTIONS= 'DENY'    # Prevents site from being framed (Clickjacking)
-SECURE_CONTENT_TYPE_NOSNIFF = True # Prevents browser from guessing contenttypes
-
-# SSL/HTTPS Security (Enable when using HTTPS)
-CSRF_COOKIE_SECURE = True  # Ensure CSRF cookie is only sent over HTTPS
-SESSION_COOKIE_SECURE = True # Ensure Session cookie is only sent over HTTPS
-
-# HSTS (HTTP Strict Transport Security)
-SECURE_HSTS_SECONDS = 31536000 # 1 year
-SECURE_HATS_INCLUDE_SUBDOMAIN = True
-SECURE_HSTS_PRELOAD = True
-
-# Redirect HTTP to HTTPS
-SECURE_SSL_REDIRECT = True
+ALLOWED_HOSTS = ['yourdomain.com', 'localhost', '127.0.0.1']
 
 # csp Configuration
 CSP_DEFAULT_SRC = ("'self'",)
-CSP_STYLE_SRC = ("'self'", "htts://fonts.googleapis.com")
+CSP_STYLE_SRC = ("'self'", "https://fonts.googleapis.com")
 CSP_SCRIPT_SRC = ("'self'",)
