@@ -125,3 +125,6 @@ LOGIN_REDIRECT_url = 'list_books'
 
 # Redirect to the login page after logout
 LOGOUT_REDIRECT_URL = 'login'
+
+# Direct Django to stop using the default 'auth.user' and to use the new model instead
+AUTH_USER_MODEL = 'relationship_app.CustomUser'
