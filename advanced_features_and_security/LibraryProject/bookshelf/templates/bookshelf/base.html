@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Library Project{% endblock %}</title>
+    <style>
+        body { font-family: sans-serif; margin: 40px; }
+        nav { background: #f4f4f4; padding: 10px; margin-bottom: 20px; }
+        nav a { margin-right: 15px; text-decoration: none; color: #333; }
+        .content { border-top: 1px solid #ccc; padding-top: 20px; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="{% url 'list_books' %}">All Books</a>
+        {% if user.is_authenticated %}
+            <span>Welcome, {{ user.username }} ({{ user.userprofile.role }})</span>
+            <a href="{% url 'logout' %}">Logout</a>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'register' %}">Register</a>
+        {% endif %}
+    </nav>
+
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>

@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.exceptions import PermissionDenied
 from .models import Book, UserProfile
+from .forms import ExampleForm, BookForm
 
 """
 Permissions and Group Configuration
@@ -42,8 +43,16 @@ def book_list(request):
 @permission_required('bookshelf.can_create', raise_exception=True)
 def create_book(request):
     if request.method == "POST":
-        # logic to create book
-        pass
+        # Bind the post to POST to the form
+        form = BookForm(request.POST)
+
+        # is_valid() checks for data types and sanitizes inputs
+        if form.is_valid():
+            form.save()
+            return redirect('book_list')
+    else:
+        form = BookForm()
+        
     return render(request, 'bookshelf/form_book.html')
 
 # View for editing a book
@@ -61,3 +70,22 @@ def delete_book(request, pk):
     book = get_object_or_404(Book, pk=pk)
     book.delete()
     return redirect('book_list')
+
+def search_books(request):
+    query = request.GET.get('q', '')
+
+    # SAFE: Using Django ORM with parametization prevents SQL Injection
+    books = Book.objects.filter(title__icontains=query)
+
+    return render(request, 'bookshelf/book_list.html', {'books': books})
+
+def example_form_view(request):
+    if request.method == "POST":
+        form = ExampleForm(request.POST)
+        if form.is_valid():
+            # SAFE: form.cleaned_data sanitizes user input automatically
+            data = form.cleaned_data['example_field']
+            # ... processing data ...
+        else:
+            form = ExampleForm()
+        return render(request, 'bookshelf/form_example.html', {'form': form})

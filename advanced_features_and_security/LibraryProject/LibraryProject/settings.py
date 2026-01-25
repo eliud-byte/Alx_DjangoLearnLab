@@ -50,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'csp.middleware.CSPMiddleware',
 ]
 
 ROOT_URLCONF = 'LibraryProject.urls'
@@ -132,3 +133,31 @@ AUTH_USER_MODEL = 'bookshelf.CustomUser'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Production Security
+DEBUG = False # NEVER leave True in production
+
+# ALLOWED_HOSTS must be defined when DEBUG IS False
+ALLOWED_HOSTS = ['yourdomain.com' 'localhost', '127.0.0.1']
+
+# Browser Security Headers
+SECURE_BROWSER_XSS_FILTER = True # Enables browser's XSS filtering
+X_FRAME_OPTIONS= 'DENY'    # Prevents site from being framed (Clickjacking)
+SECURE_CONTENT_TYPE_NOSNIFF = True # Prevents browser from guessing contenttypes
+
+# SSL/HTTPS Security (Enable when using HTTPS)
+CSRF_COOKIES_SECURE = True  # Ensure CSRF cookie is only sent over HTTPS
+SESSION_COOKIE_SECURE = True # Ensure Session cookie is only sent over HTTPS
+
+# HSTS (HTTP Strict Transport Security)
+SECURE_HSTS_SECONDS = 31536000 # 1 year
+SECURE_HATS_INCLUDE_SUBDOMAIN = True
+SECURE_HSTS_PRELOAD = True
+
+# Redirect HTTP to HTTPS
+SECURE_SSL_REDIRECT = True
+
+# csp Configuration
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_STYLE_SRC = ("'self'", "htts://fonts.googleapis.com")
+CSP_SCRIPT_SRC = ("'self'",)

@@ -1,0 +1,16 @@
+{% extends "bookshelf/base.html" %}
+
+{% block title %}Available Books{% endblock %}
+
+{% block content %}
+    <h1>Books Available:</h1>
+    <ul>
+        {% for book in books %}
+            <li>{{ book.title }} by {{ book.author.name }}</li>
+        {% endfor %}
+    </ul>
+    
+    {% if perms.relationship_app.can_add_book %}
+        <a href="{% url 'add_book' %}">+ Add New Book</a>
+    {% endif %}
+{% endblock %}
