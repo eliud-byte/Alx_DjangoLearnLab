@@ -128,5 +128,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
         # We kep SessionAuthentication so one can still use the browser UI
         'rest_framework.authentication.SessionAuthentication',
-    ]
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
 }
