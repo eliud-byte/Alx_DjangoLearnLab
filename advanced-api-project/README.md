@@ -6,7 +6,9 @@ This project is a Django REST Framework API for managing Authors and their Books
 - **Author & Book Models:** One-to-many relationship (Author has many books).
 - **Nested Serializers:** The Author API response includes a full list of books written by that author.
 - **Data Validation:** Custom validation ensures books cannot have a publication year in the future.
-- **Permission-Based Access:** - **Public:** Viewing the list of books or spicific book details. - **Restricted:** Creating, updating, or deleting books requires user authentication.
+- **Permission-Based Access:** 
+    * **Public:** Viewing the list of books or spicific book details.
+    * **Restricted:** Creating, updating, or deleting books requires user authentication.
 
 ## API Endpoints
 
@@ -24,3 +26,10 @@ This project is a Django REST Framework API for managing Authors and their Books
 2. Run migrations: `python manage.py migrate`
 3. Create an admin: `python manage.py createsuperuser`
 4. Start server: `python manage.py runserver`
+
+## Advanced Quering
+The `/api/books/` endpoint supports the following features:
+
+- **Filtering:** Use `?title=`, `?author=`, or `?publication_year=` to filter results.
+- **Searching:** Use `?search=` to perform  text search across titles and author names.
+- **Ordering:** Use `?ordering=` to sort results by `title` or `publication_year`. Prefix with `-` for descending order (e.g., `?ordering=-title`).
