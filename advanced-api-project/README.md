@@ -33,3 +33,14 @@ The `/api/books/` endpoint supports the following features:
 - **Filtering:** Use `?title=`, `?author=`, or `?publication_year=` to filter results.
 - **Searching:** Use `?search=` to perform  text search across titles and author names.
 - **Ordering:** Use `?ordering=` to sort results by `title` or `publication_year`. Prefix with `-` for descending order (e.g., `?ordering=-title`).
+
+## Testing
+This project uses Django's built-in test runner to verify API finctionality.
+
+To run the tests:
+`python manage.py test api`
+
+**What is tested:**
+- **CRUD Operations:** Verifies that books can be created, read, updated, and deleted.
+- **Permissions:** Ensures only authenticated users can modify data.
+- **Search/Filter/Order:** Verifies that query parameters filter the results correctly.
