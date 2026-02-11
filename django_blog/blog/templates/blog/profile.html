@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My Profile - Django Blog</title>
+    </head>
+    <body>
+        <h2>User Profile</h2>
+
+        {% if messages %}
+            {% for message in messages %}
+                <p style="color: green;">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+
+        <section>
+        <h3>Account Information</h3>
+        <p><strong>Username:</strong> {{ user.username }}</p>
+        <p><strong>Date Joined:</strong> {{ user.date_joined|date:"F d, Y" }}</p>
+    </section>
+
+    <hr>
+
+    <h3>Update Information</h3>
+    <form method="POST">
+        {% csrf_token %}
+        <p>
+            <label for="email">Email:</label><br>
+            <input type="email" name="email" id="email" value="{{ user.email }}">
+        </p>
+        <p>
+            <label for="first_name">First Name:</label><br>
+            <input type="text" name="first_name" id="first_name" value="{{ user.first_name }}">
+        </p>
+        <p>
+            <label for="last_name">Last Name:</label><br>
+            <input type="text" name="last_name" id="last_name" value="{{ user.last_name }}">
+        </p>
+        <button type="submit">Save Changes</button>
+    </form>
+
+    <hr>
+    <form action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit" style="color: red;">Logout</button>
+    </form>
+    </body>
+</html>
