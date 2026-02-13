@@ -10,8 +10,10 @@ A comprehensive blogging platform built with Django, featuring user authenticati
 
 ### 2. Post Mnagement (CRUD)
 - **Create:** Authenticated users can create new blog posts via `PostCreateView`.
+- **Post Forms:** Post creation and updates are handles via `ModelForm`, with the `tags` field explicitly configured to use `taggit.forms.TagWidget` for standard user input.
 - **Read:** All visitors can view a list of posts (`PostListView`) or individual post details (`PostDetailView`)
 - **Update/Delete:** Only the original author of a post has permission to edit or remove it, enforced by Django's `UserPassesTestMixin`.
+
 
 ### 3. Comment System
 - Users can engage with posts by leaving comments.
