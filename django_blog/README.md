@@ -14,11 +14,13 @@ A comprehensive blogging platform built with Django, featuring user authenticati
 - **Read:** All visitors can view a list of posts (`PostListView`) or individual post details (`PostDetailView`)
 - **Update/Delete:** Only the original author of a post has permission to edit or remove it, enforced by Django's `UserPassesTestMixin`.
 
-
 ### 3. Comment System
 - Users can engage with posts by leaving comments.
 - **Permissions:** Any authenticated user can comment, but only the comment author can edit or delete their own feedback.
 - **Relationship:** The `Comment` model uses a ForeignKey to link specific `Post` instances and `User` accounts.
+
+### 4. URL Routing
+Tag_bases filtering is accessed via the `/tags/<slug:tag_slug>/` endpoint, utilizing Django's slug  converter to ensure URL safety and consistency.
 
 ## Installaion & Setup
 1. Clone the repository: `git clone http://github.com/Alx_DjangoLearnLab/django_blog`
