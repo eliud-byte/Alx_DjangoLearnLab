@@ -135,9 +135,8 @@ class PostByTagListView(ListView):
     context_object_name = 'posts'
 
     def get_queryset(self):
-        tag_slug = self.kwargs.get('tag_slug')
-        tag = get_object_or_404(Tag, name=tag_slug)
-        return Post.objects.filter(tags=tag).order_by('-published_date')
+        # Taggit uses 'tag__name__slug' or 'tags__name'
+        return Post.objects.filter(tags__name__in=[self.kwargs.get('tag_slug')])
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
