@@ -6,5 +6,15 @@
         <p>By {{ post.author }} on {{ post.published_date }}</p>
         <p>{{ post.content|truncatewords:30 }}</p>
       </article>
+
+      <p class="tags">
+        Tags:
+        {% for tag in posts.tags.all %}
+          <a href="{% url 'posts-by-tag' tag.name %}">{{ tag.name }}</a>
+          {% if not forloop.last %}, {% endif %}
+        {% empty %}
+          No tags
+        {% endfor %}
+      </p>
   {% endfor %}
 {% endblock %}

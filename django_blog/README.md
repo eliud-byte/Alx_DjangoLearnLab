@@ -27,3 +27,10 @@ A comprehensive blogging platform built with Django, featuring user authenticati
 ## Testing the features
 - **Posts:** Navigate to `/post/new/` while logged in to create a post. Try to edit a post created by another user to verify permission restrictions.
 - **Comments:** Open a post's detail page and use the "Add a Comment" link. Verify that the "Edit" and "Delete" buttons only appear for your own comments.
+
+## Tagginh & Search Features:
+- **Tagging:** Implemented a custom `Tag` model. The `PostForm` was overridden to accept a comma-seperated string of tags. The `save()` method processes this string, creating new `tag` objects on the fly if they don't exist and associating them with the post.
+- **Search:** The search view uses `django.db.models.Q` to perform complex lookups. A single query checks if the search term exists in the post Title OR Content Tags.
+- **Usage:**
+    - **Add Tags:** When creating/editing a post, type tags into the "Tags" field seperated by commas (e.g., "News, Updates, Python").
+    - **Search:** Use the search bar in the navigation menu.

@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -12,7 +13,7 @@ from django.views.generic import (
     UpdateView,
     DeleteView
 )
-from .models import Post, Comment
+from .models import Post, Comment, Tag
 from .forms import PostForm, CommentForm
 
 def register(request):
@@ -126,3 +127,35 @@ def CommentDeleteView(request, pk):
         comment.delete()
         return redirect('post-detail', pk=post_pk)
     return redirect('post-detail', pk=comment.post.pk)
+
+# View to display posts filtered by a specific tag
+class PostByTagListView(ListView):
+    model = Post
+    template_name = 'blog/post_list.html' # Reuse the list template
+    context_object_name = 'posts'
+
+    def get_queryset(self):
+        tag_slug = self.kwargs.get('tag_slug')
+        tag = get_object_or_404(Tag, name=tag_slug)
+        return Post.objects.filter(tags=tag).order_by('-published_date')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tag'] = self.kwargs.get('tag_slug')
+        return context
+    
+# View to handle search functionality
+def search(request):
+    query = request.GET.get('q')
+    results = []
+    if query:
+        # Search in title, content, OR tag names
+        results = Post.objects.filter(
+            Q(title__icontains=query) |
+            Q(content__icontains=query) |
+            Q(tags__name__icontains=query)
+        ).distinct() # distinct() prevents duplicate results if a post matches tags
+
+    return render(request, 'blog/search_results.html', {'query': query, 'results': results})
+
+
