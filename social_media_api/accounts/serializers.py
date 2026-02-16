@@ -1,19 +1,20 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
-from .models import Register
 
+# Get the User model dynamically
+User = get_user_model()
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = get_user_model()
-        fields = ['username', 'email', 'password', 'bio']
+        model = User
+        fields = ['id', 'username', 'email', 'bio', 'profile_picture']
     
 class RegisterSerializer(serializers.ModelSerializer):
-    password =serializers.CharField(write_only=True)
+    password =serializers.CharField()
 
     class Meta:
-        model = Register
+        model = User
         fields = ['username', 'email', 'password', 'bio']
 
     def create(self, validated_data):
