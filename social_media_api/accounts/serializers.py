@@ -3,15 +3,21 @@ from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
 from .models import Register
 
-User = get_user_model()
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
+        model = get_user_model()
+        fields = ['username', 'email', 'password', 'bio']
+    
+class RegisterSerializer(serializers.ModelSerializer):
+    password =serializers.CharField(write_only=True)
+
+    class Meta:
+        model = Register
         fields = ['username', 'email', 'password', 'bio']
 
     def create(self, validated_data):
-        user = User.objects.create_user(
+        user = get_user_model().objects.create_user(
             username=validated_data['username'],
             email=validated_data.get('email'),
             password=validated_data['password'],
@@ -20,8 +26,5 @@ class UserSerializer(serializers.ModelSerializer):
         # Automatically create a token for the new user
         Token.objects.create(user=user)
         return user
+
     
-class RegisterSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Register
-        fields = ['__all__']
