@@ -1,4 +1,4 @@
-from rest_framework import viewsets, permissions, filters
+from rest_framework import generics, viewsets, permissions, filters
 from .models import Post, Comment
 from .serializers import PostSerializer, CommentSerializer
 
@@ -26,3 +26,14 @@ class CommentViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
+
+class FeedView(generics.ListAPIView):
+    serializer_class = PostSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        # Get the users that the current user is following
+        following_users = self.request.user.following.all()
+        # Filter posts where the author is in that following list
+        # We order by -created_at to get the most recent posts first
+        return Post.objects.filter(author__in=following_users).order_by('-created_at')
