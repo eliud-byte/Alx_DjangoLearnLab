@@ -154,3 +154,7 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 # 5. Ensures cookies are only sent over HTTPS
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
+
+# Deployment Port Configuration
+# Use the PORT environment variable if it exists (for production), otherwise default to 8000
+PORT = os.environ.get("PORT", 8000)
