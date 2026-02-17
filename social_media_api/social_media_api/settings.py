@@ -135,3 +135,22 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ],
 }
+
+# Security Settings for Production
+# ------------------------------------------------------------------------------
+
+# 1. Protects against XSS attacks where the browser tries to "guess" the content type
+SECURE_BROWSER_XSS_FILTER = True
+
+# 2. Prevents your site from being rendered inside an iframe on other sites (Clickjacking)
+X_FRAME_OPTIONS = 'DENY'
+
+# 3. Ensures that all non-HTTPS requests are redirected to HTTPS
+SECURE_SSL_REDIRECT = True
+
+# 4. Prevents the browser from sniffing the MIME type (added for extra safety)
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# 5. Ensures cookies are only sent over HTTPS
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
